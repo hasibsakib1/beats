@@ -19,7 +19,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final audioList = ref.watch(audioListControllerProvider);
-    final nowPlayingSong = ref.watch(nowPlayingSongProvider);
+    // final nowPlayingSong = ref.watch(nowPlayingSongProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -70,11 +70,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 .play(url: audios[index].uri);
                             ref.read(nowPlayingSongProvider.notifier).state =
                                 audios[index];
+                            ref.read(nowPlayingIndexProvider.notifier).state = index;
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        PlayerScreen(audios[index])));
+                                       const PlayerScreen()));
                           }),
                     );
                   },

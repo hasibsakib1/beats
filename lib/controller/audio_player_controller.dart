@@ -51,3 +51,4 @@ class AudioPlayerController extends Notifier {
 }
 
 final nowPlayingSongProvider = StateProvider<SongModel?>((ref) => null);  
+final nowPlayingIndexProvider = StateProvider<int>((ref) => -1);

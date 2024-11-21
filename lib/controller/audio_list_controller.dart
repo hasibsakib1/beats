@@ -37,13 +37,21 @@ class AudioListController extends AsyncNotifier<List<SongModel>> {
   }
   
   Future<void> getAudios() async{
-    state = AsyncValue.data(await audioQuery.querySongs(
+    final songs = await audioQuery.querySongs(
       ignoreCase: true,
       orderType: OrderType.ASC_OR_SMALLER,
       sortType: null,
       uriType: UriType.EXTERNAL,
-    ));
+    );
+
+    List<SongModel> filteredSongs = songs.where((song) => (song.duration ?? 0) > 30000).toList();
+
+    state = AsyncValue.data(filteredSongs);
   }
 }
 
 final audioListControllerProvider = AsyncNotifierProvider<AudioListController, List<SongModel>>(AudioListController.new); 
+final audioListLengthProvider = Provider<int>((ref) => ref.watch(audioListControllerProvider).maybeWhen(
+  data: (audios) => audios.length,
+  orElse: () => 0,
+));
